@@ -1,0 +1,42 @@
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const compression = require('compression')
+
+const app = express ();
+const PORT = 3000;
+app.disable('x-powered-by');
+
+app.use(compression());
+app.use('/api', express.static(path.join(__dirname,'data'), {extensions: ['json']}) );
+
+app.get('/api/:name',(req,res) => {  //http://expressjs.com/en/guide/routing.html#route-parameters
+    let {name: filename}=req.params;
+        
+    fs.open(filename, 'r', (err, fd) => { //https://nodejs.org/api/fs.html#fsopenpath-flags-mode-callback - ассинхронне читання файлу
+        if (err) {
+          if (err.code === 'ENOENT') {
+            res.status(404);
+            res.end('404 '+filename);
+            return;
+          }
+          throw err;
+        }
+        try {
+          res.json(fd);
+        } finally {
+          close(fd, (err) => {
+            if (err) throw err;
+          });
+        }
+      });
+}); 
+
+app.get('/',(req,res) => {
+    res.status(403);
+    res.end('403/forbidden'); //give 403
+});
+
+app.listen(PORT, ()=> {
+    console.log('Server has been started successfully on port ' + PORT);
+});
