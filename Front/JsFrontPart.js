@@ -1,6 +1,6 @@
 // Цей масив буду малювати//
 
-let bll = [
+/* let bll = [
   {
     id: 1,
     email: 'michael.lawson@reqres.in',
@@ -43,7 +43,7 @@ let bll = [
     last_name: 'Howell',
     photo: 'https://reqres.in/img/faces/12-image.jpg',
   },
-]
+] */
 
 // Робочий шматок коду, який малює користувачів. Якщо розкоментувати строки 57 ы 68, то буде фетч запит, все картинки будуть однакові
 
@@ -53,7 +53,13 @@ let user = document.querySelector('.listOfUsers')
 button.onclick = addUsers
 
 async function addUsers() {
-  /* let response = await fetch(`https://reqres.in/img/faces/8-image.jpg`) */
+  let bll;
+  await fetch(`http://localhost:3000/api/users`).then(response => {
+    bill=response.json()})
+  .catch((error) => {
+    console.error('Error:', error)
+  });
+  
 
   for (let key in bll) {
     user.innerHTML += `<content class="theUser">                       
