@@ -1,11 +1,14 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const cors= require('cors');
 const compression = require('compression')
 
 const app = express ();
 const PORT = 3000;
 app.disable('x-powered-by');
+
+app.use(cors({ origin: '*' }));
 
 app.use(compression());
 app.use('/api', express.static(path.join(__dirname,'data'), {extensions: ['json']}) );
