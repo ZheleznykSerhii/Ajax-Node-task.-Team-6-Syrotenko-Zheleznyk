@@ -55,7 +55,7 @@ button.onclick = addUsers
 async function addUsers() {
   let bll;
   await fetch(`http://localhost:3000/api/users`).then(response => {
-    bill=response.json()})
+    bll=response.json()})
   .catch((error) => {
     console.error('Error:', error)
   });

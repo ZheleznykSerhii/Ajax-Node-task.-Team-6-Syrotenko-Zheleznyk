@@ -6,16 +6,17 @@ const compression = require('compression')
 
 const app = express ();
 const PORT = 3000;
-app.disable('x-powered-by');
 
 app.use(cors({ origin: '*' }));
-
 app.use(compression());
-app.use('/api', express.static(path.join(__dirname,'data'), {extensions: ['json']}) );
+app.disable('x-powered-by');
+
+//app.use('/api', express.static(path.join(__dirname,'data'), {extensions: ['json']}) );
 
 app.get('/api/:name',(req,res) => {  //http://expressjs.com/en/guide/routing.html#route-parameters
-    let {name: filename}=req.params;
-        
+    let {name}=req.params;
+    const filename= path.join(__dirname,'data',name+'.json');  
+    console.log(filename);
     fs.open(filename, 'r', (err, fd) => { //https://nodejs.org/api/fs.html#fsopenpath-flags-mode-callback - ассинхронне читання файлу
         if (err) {
           if (err.code === 'ENOENT') {
@@ -28,7 +29,7 @@ app.get('/api/:name',(req,res) => {  //http://expressjs.com/en/guide/routing.htm
         try {
           res.json(fd);
         } finally {
-          close(fd, (err) => {
+          fs.close(fd, (err) => {
             if (err) throw err;
           });
         }
