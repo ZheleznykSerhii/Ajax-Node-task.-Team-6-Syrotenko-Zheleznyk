@@ -14,15 +14,13 @@ async function addUsers() {
                <div>Lastname: 
                <span class="name">${bll[key].last_name}</span></div>
                <div class="eMail">${bll[key].email}</div>
-               <div class="userPhoto"><img src="${
-                 bll[key].photo /*response.url*/
-               }" alt="photo"></div>   
+               <div class="userPhoto"><img src="${bll[key].photo}" alt="photo"></div>   
     </content>`
   }
   button.innerHTML = 'Remove users'
   button.onclick = removeUsers
 }
-// Видаляю створений HTML, щоб якщо клацати по кнопнці не дублювались користувачі. Можна було б їх видалити і одразу намалювати той результат, який прийшов. Їх б було б далі 6шт, але так ніби гарніше.
+// Видаляю створений HTML, щоб якщо клацати по кнопнці не дублювались користувачі. Можна було б їх видалити і одразу намалювати той результат, який прийшов, але за таким рішенням користувачу легше зрозуміти, що був зроблений новий запит і дані оновлені.
 function removeUsers() {
   button.innerHTML = 'Download users info'
   document.querySelectorAll('.theUser').forEach((e) => e.remove())
